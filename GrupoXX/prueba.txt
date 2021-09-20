@@ -1,0 +1,8 @@
+program
+
+if (b>y)
+then
+display "Primer ID mayor"
+endif
+
+end

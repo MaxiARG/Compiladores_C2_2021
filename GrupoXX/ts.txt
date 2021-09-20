@@ -1,0 +1,19 @@
+Nombre			Tipo			Valor			Longitud
+_a			int						
+_b			int						
+_f1			float						
+_cad			string						
+_f2			float						
+_f3			float						
+_x			int						
+_y			int						
+_z			int						
+_25						25			
+_2						2			
+_1.2						1.2			
+_-8						-8			
+_36						36			
+_d									
+_0.007						0.007			
+_"Hola estamos compilando"						"Hola estamos compilando"			25
+_"Primer ID mayor"						"Primer ID mayor"			17

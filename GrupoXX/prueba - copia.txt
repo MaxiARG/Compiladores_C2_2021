@@ -1,0 +1,26 @@
+program
+dim  [a,b,f1,cad,f2]  as  [int,int,float,string,float] 
+dim  [f3] as [float]
+dim  [x,y,z] as [int,int,int] 
+
+ b :=25
+ a := 2 + b 
+ f1 := 1.2
+y:=-8
+z:=36
+d:=0.007
+cad := "Hola estamos compilando"
+*/Se ingresa un valor por teclado /*
+get x
+if b>y
+then
+display "Primer ID mayor"
+endif
+
+while(b<=a)
+{
+   display b
+   f3:=b+z
+}
+
+end
