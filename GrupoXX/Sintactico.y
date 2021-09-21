@@ -85,8 +85,9 @@ char * str;
 
 %%
 programa:
-                  PROGRAM {printf(" Inicio del Compilador\n");} zona_declaracion algoritmo {printf("FIN COMPILADOR OK\n");}END
-                  |algoritmo;
+					PROGRAM {printf(" Inicio del Compilador\n");} zona_declaracion algoritmo {printf("FIN COMPILADOR OK\n");}END
+                  |PROGRAM {printf(" Inicio del Compilador\n");} algoritmo {printf("FIN COMPILADOR OK\n");}END 
+				  |algoritmo;
 zona_declaracion:
                                declaraciones;
 

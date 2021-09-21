@@ -1,4 +1,5 @@
 program
+
 dim  [a,b,f1,cad,f2]  as  [int,int,float,string,float] 
 dim  [f3] as [float]
 dim  [x,y,z] as [int,int,int] 
@@ -16,6 +17,8 @@ if b>y
 then
 display "Primer ID mayor"
 endif
+
+a:=(25,26,27)
 
 while(b<=a)
 {

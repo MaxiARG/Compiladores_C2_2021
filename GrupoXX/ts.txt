@@ -17,3 +17,5 @@ _d
 _0.007						0.007			
 _"Hola estamos compilando"						"Hola estamos compilando"			25
 _"Primer ID mayor"						"Primer ID mayor"			17
+_26						26			
+_27						27			
