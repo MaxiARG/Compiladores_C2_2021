@@ -1,7 +1,6 @@
 %{
 #include <stdio.h>
 #include <stdlib.h>
-#include <conio.h>
 #include <string.h>
 #include "y.tab.h"
 
@@ -25,8 +24,13 @@ extern int puntero_array;
  char* aux_tipo_dato;
  char tablaTipos[100][10];
 char tablaVar[100][10];
+char tablaLista[100][10];
  int contadorId = 0;
+int contarElem_lista=0;
  int agregar_TipoEn_TS(char* nombre, int contadorId); // funcion para completar el campo tipo en ts.
+int longitud_lista(int contarElem_lista);
+
+
 
 %}
 
@@ -81,8 +85,8 @@ char * str;
 
 %%
 programa:
-                  PROGRAM {printf(" Inicio del Compilador\n");} zona_declaracion algoritmo  {printf("FIN COMPILADOR OK\n");};
-                 
+                  PROGRAM {printf(" Inicio del Compilador\n");} zona_declaracion algoritmo {printf("FIN COMPILADOR OK\n");}END
+                  |algoritmo;
 zona_declaracion:
                                declaraciones;
 
@@ -91,11 +95,11 @@ declaraciones:
                          |declaraciones declaracion;
 
 declaracion:
-					DIM C_A lista_var C_C  AS C_A  lista_tipo C_C{validar_declaracion(contadorTipos,contadorId);};
+                    DIM C_A lista_var C_C  AS C_A  lista_tipo C_C{validar_declaracion(contadorTipos,contadorId);};
 
 
 lista_var:
-               ID {strcpy(tablaVar[contadorId],yylval.strid) ;  contadorId++; }
+               ID {strcpy(tablaVar[contadorId],yylval.strid);  contadorId++; }
               | lista_var COMA  ID {strcpy(tablaVar[contadorId],yylval.strid) ; contadorId++;};
 
  
@@ -109,7 +113,7 @@ lista_tipo:
               
 
 algoritmo:
-                 bloque END{printf("Fin de bloque\n");};
+                 bloque {printf("Fin de bloque\n");};
 
 bloque:
             sentencia
@@ -126,12 +130,13 @@ ciclo:
          WHILE { printf("ciclo  WHILE\n");} P_A condicion P_C LL_A bloque LL_C;
        
 asignacion:
-                    ID OP_ASIG expresion {printf(" ASIGNACION\n");};
+                    ID OP_ASIG expresion {printf(" ASIGNACION\n");}
+                   |ID OP_ASIG P_A lista P_C { longitud_lista(contarElem_lista);};
                   
           
 seleccion: 
     	 IF  condicion THEN bloque ENDIF{printf("     IF\n");}
-	| IF  condicion THEN bloque ELSE bloque ENDIF {printf("     IF con ELSE\n");};
+	| IF  condicion THEN bloque ELSE bloque ENDIF {printf("  IF con ELSE\n");};
 
 condicion:
          comparacion 
@@ -145,13 +150,15 @@ comparacion:
                     |expresion COMP_MENOR expresion
                     |expresion COMP_MAYOR_IGUAL expresion  
                     |expresion COMP_MENOR_IGUAL expresion 
-                    |expresion COMP_DISTINTO expresion
+                    |expresion COMP_DISTINTO expresion;
 
 
 expresion:
                   expresion OP_MAS termino
                   |expresion OP_MENOS termino
-                  |termino;
+                  ||termino;
+                  
+
 
 termino:
              termino OP_MULT factor
@@ -165,7 +172,18 @@ factor:
            |CTE_REAL {printf("Factor es CTE_REAL\n");}
            |CTE_STRING {printf("Factor es CTE_STRING\n");}
            |P_A expresion P_C;
- 
+
+lista: 
+        lista COMA ID {strcpy(tablaLista[contarElem_lista],yylval.strid); contarElem_lista++ ;}
+       | lista COMA CTE_ENTERA  { strcpy(tablaLista[contarElem_lista],yylval.num); contarElem_lista++ ;}
+       | lista COMA CTE_REAL { strcpy(tablaLista[contarElem_lista],yylval.real); contarElem_lista++ ;}
+       |lista COMA CTE_STRING { strcpy(tablaLista[contarElem_lista],yylval.str); contarElem_lista++ ;}
+       | ID { strcpy(tablaLista[contarElem_lista],yylval.strid); contarElem_lista++; }
+       | CTE_ENTERA { strcpy(tablaLista[contarElem_lista],yylval.num); contarElem_lista++; }
+       | CTE_REAL { strcpy(tablaLista[contarElem_lista],yylval.real); contarElem_lista++ ;}
+       | CTE_STRING { strcpy(tablaLista[contarElem_lista],yylval.str); contarElem_lista++ ;};
+
+         
 entrada: 
               GET{printf("\tGET\n");} ID;
 
@@ -220,4 +238,23 @@ int agregar_TipoEn_TS(char* nombre, int contadorTipos)
 	
 }
 
+int longitud_lista(int contarElem_lista)
+{
+   int i;
+          printf("\nLongitud de la lista:\n");
+            for(i = 0; i < contarElem_lista; i++)
+           {
+                        if( i ==  0)
+                        {  printf( "(  ",tablaLista[i]); }
 
+                         printf(" %s , ",tablaLista[i]);
+                         if( i == contarElem_lista-1)
+                        {
+                          printf(" ) = %d\n ", i+1);
+                       }  
+
+            
+          }
+
+  return 1;      
+}

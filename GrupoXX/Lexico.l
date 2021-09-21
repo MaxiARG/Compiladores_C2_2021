@@ -1,6 +1,7 @@
 %{
 #include <stdio.h>
 #include <stdlib.h>
+#include <conio.h>
 #include <string.h>
 #include <math.h>
 #include "y.tab.h"
@@ -22,6 +23,7 @@ int yyerror(void);
 void validar_rango_entero(char*);
 void validar_rango_real(char*);
 void controlar_cant_caracteres(char*);
+void validar_declaracion(int, int);
 
 int guardar_TS(char*, char*);
 int escribir_TS();
@@ -114,6 +116,16 @@ void validar_rango_real(char* str)
 	} 
 }
 
+void validar_declaracion(int cantTipos, int cantVariables)
+{
+  if(cantTipos != cantVariables)
+  {
+      printf("\n Error en la declaracion de variables, cantidad de tipos no coincide con cantidad de variables\n");
+     system("Pause");
+     exit(1);
+  }
+}
+
 void controlar_cant_caracteres(char* str)
 {
   if(strlen(str)>30)
@@ -183,16 +195,6 @@ int escribir_TS(){
 	fclose(pf); 
 
 	return 1;
-}
-
-void validar_declaracion(int cantTipos, int cantVariables)
-{
-  if(cantTipos != cantVariables)
-  {
-      printf("\n Error en la declaracion de variables, cantidad de tipos no coincide con cantidad de variables\n");
-     system("Pause");
-     exit(1);
-  }
 }
 
 int yyerror(void)
